@@ -163,11 +163,8 @@ export default function Customer() {
 
   const [c, setC] = useState(null);
   const [matches, setMatches] = useState(null);
-  const [notes, setNotes] = useState([]);
   const [why, setWhy] = useState({});
   const [sending, setSending] = useState(null);
-  const [note, setNote] = useState('');
-  const [fu, setFu] = useState('');
   const [toast, setToast] = useState(null);
   const [err, setErr] = useState('');
 
@@ -180,9 +177,6 @@ export default function Customer() {
       .then((d) => setMatches(d))
       .catch((e) => setErr(e.message));
 
-    api(`/api/customers/${id}/notes`)
-      .then((d) => setNotes(d.data))
-      .catch(() => {});
   }, [id]);
 
   useEffect(load, [load]);
@@ -242,41 +236,15 @@ export default function Customer() {
     );
 
   async function explain(cid) {
-    await setWhy((w) => ({ ...w, [cid]: { loading: true } }));
+    setWhy((w) => ({ ...w, [cid]: { loading: true } }));
 
     try {
-      setWhy((w) => ({
-        ...w,
-        [cid]: {
-          ...(api(`/api/customers/${id}/matches/${cid}/explanation`)),
-        },
-      }));
+      const result = await api(
+        `/api/customers/${id}/matches/${cid}/explanation`
+      );
+      setWhy((w) => ({ ...w, [cid]: result }));
     } catch (e) {
       setWhy((w) => ({ ...w, [cid]: { text: e.message } }));
-    }
-  }
-
-  async function addNote(e) {
-    e.preventDefault();
-
-    try {
-      await api(`/api/customers/${id}/notes`, {
-        method: 'POST',
-        body: {
-          text: note,
-          ...(fu && { followUpOn: fu }),
-        },
-      });
-
-      setNote('');
-      setFu('');
-      setToast({
-        title: 'Note saved',
-        message: 'It stays internal and is never shared with a match.',
-      });
-      load();
-    } catch (x) {
-      setErr(x.message);
     }
   }
 
@@ -301,7 +269,7 @@ export default function Customer() {
 
   return (
     <div className="space-y-10">
-      <div className="flex justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           to="/customers"
           className="inline-flex items-center gap-1 text-sm text-muted"
@@ -312,6 +280,28 @@ export default function Customer() {
           Edit profile
         </Link>
       </div>
+
+      <nav
+        aria-label="Customer profile sections"
+        className="flex flex-wrap gap-2 border-b border-line pb-3"
+      >
+        <Link
+          to={`/customers/${id}`}
+          aria-current="page"
+          className="btn btn-primary"
+        >
+          Profile details
+        </Link>
+        <Link
+          to={`/customers/${id}/introductions`}
+          className="btn"
+        >
+          Introduction history
+        </Link>
+        <Link to={`/customers/${id}/notes`} className="btn">
+          Notes
+        </Link>
+      </nav>
 
       {toast && (
         <Banner
@@ -741,62 +731,6 @@ export default function Customer() {
         </ul>
       </section>
 
-      <section className="card flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl">Introduction history</h2>
-          <p className="mt-1 text-sm text-muted">
-            Review past introductions, track responses, and view the full
-            timeline.
-          </p>
-        </div>
-
-        <Link
-          to={`/customers/${id}/introductions`}
-          className="btn btn-primary"
-        >
-          View introduction history
-        </Link>
-      </section>
-
-      <section>
-        <h2 className="mb-4 text-3xl">Notes</h2>
-
-        <form onSubmit={addNote} className="flex flex-wrap gap-3">
-          <input
-            className="input"
-            aria-label="New note"
-            placeholder="Internal note (never shared)"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            required
-          />
-
-          <input
-            type="date"
-            className="input max-w-[11rem]"
-            aria-label="Follow-up date (optional)"
-            value={fu}
-            onChange={(e) => setFu(e.target.value)}
-          />
-
-          <button className="btn btn-primary">Add</button>
-        </form>
-
-        {notes.length === 0 ? (
-          <p className="mt-3 text-muted">No notes yet.</p>
-        ) : (
-          <ul className="mt-3 space-y-2">
-            {notes.map((n) => (
-              <li key={n._id} className="card text-sm">
-                {n.text}
-                <div className="text-xs text-muted">
-                  {new Date(n.createdAt).toLocaleString()}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
 
       {sending && (
         <SendDialog

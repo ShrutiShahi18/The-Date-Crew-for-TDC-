@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Clock3, CheckCircle2, XCircle, Mail } from 'lucide-react';
@@ -93,6 +92,25 @@ export default function IntroductionHistory() {
         </span>
       </div>
 
+      <nav
+        aria-label="Customer profile sections"
+        className="flex flex-wrap gap-2 border-b border-line pb-3"
+      >
+        <Link to={`/customers/${id}`} className="btn">
+          Profile details
+        </Link>
+        <Link
+          to={`/customers/${id}/introductions`}
+          aria-current="page"
+          className="btn btn-primary"
+        >
+          Introduction history
+        </Link>
+        <Link to={`/customers/${id}/notes`} className="btn">
+          Notes
+        </Link>
+      </nav>
+
       {toast && (
         <Banner
           title={toast.title}
@@ -157,7 +175,9 @@ export default function IntroductionHistory() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-lg bg-bg p-3">
                     <p className="text-xs text-muted">Compatibility score at send</p>
-                    <p className="mt-1 text-2xl">{intro.scoreAtSend ?? '—'}{intro.scoreAtSend != null ? '%' : ''}</p>
+                    <p className="mt-1 text-2xl">
+                      {intro.scoreAtSend ?? '—'}{intro.scoreAtSend != null ? '%' : ''}
+                    </p>
                   </div>
 
                   <div className="rounded-lg bg-bg p-3">
