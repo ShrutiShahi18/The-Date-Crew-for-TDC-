@@ -1,6 +1,26 @@
 {
-  "name": "tdc-server", "version": "0.1.0", "type": "module", "private": true,
-  "scripts": { "dev": "node --watch --env-file=.env src/index.js", "start": "node src/index.js", "seed": "node --env-file=.env scripts/seed.js", "test": "vitest run" },
-  "dependencies": { "bcrypt": "^5.1.1", "cookie-parser": "^1.4.6", "cors": "^2.8.5", "express": "^4.19.2", "express-rate-limit": "^7.4.0", "jsonwebtoken": "^9.0.2", "mongoose": "^8.5.0", "zod": "^3.23.8" },
-  "devDependencies": { "supertest": "^7.0.0", "vitest": "^2.0.5" }
+  "name": "tdc-server",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "node --watch --env-file=.env src/index.js",
+    "start": "node src/index.js",
+    "seed": "node --env-file=.env scripts/seed.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0",
+    "vitest": "^5.0.5"
+  }
 }
