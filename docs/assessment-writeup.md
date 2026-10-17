@@ -1,0 +1,7 @@
+# Write-up
+
+**AI.** Compatibility is computed by deterministic application code; OpenAI never sees the scoring decision and never changes it. After the engine scores a pair, the backend sends OpenAI only the computed strengths, differences and unknowns plus a minimal public profile view, and asks for a short explanation and an editable introduction draft. The key stays on the server, requests are rate-limited, and if the key is missing, quota is exhausted or output is invalid, the app returns a deterministic template clearly labelled as fallback. Delivery of introductions is simulated and recorded as such.
+
+**Matching.** Candidates are filtered to the opposite-gender pool, excluding inactive profiles and any pair that breaks a preference a customer marked non-negotiable. Remaining pairs get a weighted 0–100 indicator across relationship intention, children, mutual partner preferences, location and relocation, interests and languages. Preferences are checked in both directions, and missing information is left out of the score and shown as lower confidence rather than counted as a mismatch.
+
+**Why stated preferences.** The brief's example (older, taller, higher-earning men) encodes a stereotype, so the engine uses each person's own stated criteria with identical logic for every gender. Limitations: synthetic data, a simple weighting model not validated against outcomes, and an unfinished UI and Trust & Safety module in this version.
