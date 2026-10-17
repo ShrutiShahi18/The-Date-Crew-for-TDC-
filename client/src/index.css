@@ -1,0 +1,35 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+:root { --bg:#f6f1e7; --surface:#fcf9f2; --ink:#2a2322; --muted:#6f655d; --line:#ddd2c0; --brand:#6b1d2a; --gold:#a88a4e; }
+.dark { --bg:#171416; --surface:#211c1f; --ink:#efe8dc; --muted:#a79d93; --line:#3a3236; --brand:#c4677a; --gold:#c9a96a; }
+body { @apply bg-bg text-ink font-sans; }
+h1,h2,h3 { @apply font-serif; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.btn { @apply inline-flex items-center gap-2 rounded-md border border-line px-4 py-2.5 text-sm hover:border-brand; }
+.btn-primary { @apply bg-brand text-white border-brand hover:opacity-90 disabled:opacity-50; }
+.card { @apply rounded-xl border border-line bg-surface p-6 shadow-sm; }
+.input { @apply w-full rounded-md border border-line bg-bg px-3 py-2.5 text-sm; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+html[data-size="lg"] { font-size: 18px; } html[data-size="xl"] { font-size: 20px; }
+html[data-contrast="high"] { --line:#7d7268; --muted:#4a4039; } html.dark[data-contrast="high"] { --line:#9a8f96; --muted:#d9d0c4; }
+body { transition: background-color .3s, color .3s; }
+@keyframes rise { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+@keyframes pop { from { opacity:0; transform:scale(.96); } to { opacity:1; transform:none; } }
+.rise { animation: rise .55s cubic-bezier(.2,.7,.2,1) both; }
+.lift { transition: transform .25s, box-shadow .25s, border-color .25s; }
+.lift:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -16px rgba(0,0,0,.4); }
+.btn { transition: transform .15s, border-color .2s, opacity .2s; } .btn:active { transform: scale(.97); }
+[role="dialog"] .card { animation: pop .22s ease both; }
+.ring-fg { transition: stroke-dashoffset 1.1s cubic-bezier(.2,.7,.2,1); }
+details > summary { list-style: none; } details > summary::-webkit-details-marker { display: none; }
+details > summary::after { content: " +"; } details[open] > summary::after { content: " −"; }
+html[data-motion="off"] *, html[data-motion="off"] *::before { animation: none !important; transition: none !important; }
+
+:root { color-scheme: light; } html.dark { color-scheme: dark; }
+select.input { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23a88a4e' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right .9rem center; }
+select, select.input option { accent-color: var(--brand); }
+select.input option { background: var(--surface); color: var(--ink); }
+.input { transition: border-color .2s, box-shadow .2s; } .input:hover { border-color: var(--gold); }
+.input:focus { border-color: var(--brand); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 28%, transparent); }
