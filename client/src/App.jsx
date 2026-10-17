@@ -6,6 +6,7 @@ import { api } from './api';
 import Login from './pages/Login';
 import Customers from './pages/Customers';
 import Customer from './pages/Customer';
+import CustomerNotes from './pages/CustomerNotes';
 import Home from './pages/Home';
 import Logo from './components/Logo';
 import EditProfile from './pages/EditProfile';
@@ -139,20 +140,31 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home user={user} />} />
           <Route path="/customers" element={<Customers />} />
+
           <Route
             path="/customers/:id/edit"
             element={<EditProfile />}
           />
+
           <Route
             path="/customers/:id/compare/:cid"
             element={<Compare />}
           />
+
           <Route
             path="/customers/:id/introductions"
             element={<IntroductionHistory />}
           />
+
+          <Route
+            path="/customers/:id/notes"
+            element={<CustomerNotes />}
+          />
+
           <Route path="/customers/:id" element={<Customer />} />
+
           <Route path="/safety" element={<Safety />} />
+
           <Route
             path="/settings"
             element={
@@ -163,6 +175,7 @@ export default function App() {
               />
             }
           />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
